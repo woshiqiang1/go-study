@@ -1,24 +1,26 @@
 package main
 
 import (
-    "fmt"
+	"encoding/json"
+	"fmt"
 )
 
-type Book struct {
-    title string
-    author string
-  }
-  
-  func main() {
-    var myBook Book
-    myBook = Book{
-      title: "《两京十五日》",
-      author: "马伯庸",
+type Server struct {
+    ServerName string `json:"serverName"`
+    ServerIP string `json:"serverIP"`
+}
+
+type ServerSlice struct {
+    Servers []Server `json:"servers"`
+}
+
+func main() {
+    var s ServerSlice
+    s.Servers = append(s.Servers, Server{ServerName: "Shanghai_VPN", ServerIP: "127.0.0.1"})
+	s.Servers = append(s.Servers, Server{ServerName: "Beijing_VPN", ServerIP: "127.0.0.2"})
+    b, err := json.Marshal(s)
+    if err != nil {
+        fmt.Println("json err:", err)
     }
-    printBook(myBook)
-  }
-  
-  func printBook(book Book) {
-    fmt.Printf("book title: %s\n", book.title)
-    fmt.Printf("book author: %s\n", book.author)
-  }
+    fmt.Println(string(b))
+}
