@@ -1,26 +1,29 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"os"
 )
 
-type Server struct {
-    ServerName string `json:"serverName"`
-    ServerIP string `json:"serverIP"`
-}
-
-type ServerSlice struct {
-    Servers []Server `json:"servers"`
-}
-
 func main() {
-    var s ServerSlice
-    s.Servers = append(s.Servers, Server{ServerName: "Shanghai_VPN", ServerIP: "127.0.0.1"})
-	s.Servers = append(s.Servers, Server{ServerName: "Beijing_VPN", ServerIP: "127.0.0.2"})
-    b, err := json.Marshal(s)
-    if err != nil {
-        fmt.Println("json err:", err)
-    }
-    fmt.Println(string(b))
+	file, err := os.OpenFile("./test_main.go", os.O_RDONLY, 0755)
+	if err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		err := file.Close()
+		if err != nil {
+			panic(err)
+		}
+	}()
+
+	code := make([]byte, 1024) // 注意：切片长度决定了读取内容的长度
+	n, err := file.Read(code)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%d characters were successfully read\n", n)
+	fmt.Printf("%s\n", code)
 }

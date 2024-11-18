@@ -1,15 +1,16 @@
 package main
+
 import "fmt"
 
 type Person struct {
 	name string
-	age int
+	age  int
 }
 
 func sum(nums ...int) (int, bool) {
-  total := 0
+	total := 0
 
-	for _,num := range nums {
+	for _, num := range nums {
 
 		total += num
 	}
@@ -26,12 +27,12 @@ func MapKeys[K comparable, V any](m map[K]V) []K {
 }
 
 type List[T any] struct {
-  head, tail *element[T]
+	head, tail *element[T]
 }
 
 type element[T any] struct {
 	next *element[T]
-	val T
+	val  T
 }
 
 func (lst *List[T]) Push(v T) {
@@ -46,7 +47,7 @@ func (lst *List[T]) Push(v T) {
 
 func (lst *List[T]) GetAll() []T {
 	var elems []T
-	for e := lst.head; e!= nil; e = e.next {
+	for e := lst.head; e != nil; e = e.next {
 		elems = append(elems, e.val)
 	}
 
@@ -65,5 +66,5 @@ func main() {
 	lst.Push(10)
 	lst.Push(20)
 	lst.Push(30)
-  fmt.Println("list:", lst.GetAll())
+	fmt.Println("list:", lst.GetAll())
 }
